@@ -14,30 +14,33 @@ export type Database = {
           created_at: string
           ended: boolean
           id: string
+          is_ai: boolean
           user_1: string | null
           user_1_score: number
           user_2: string | null
-          user_2_score: number | null
+          user_2_score: number
           winner_id: string | null
         }
         Insert: {
           created_at?: string
           ended?: boolean
           id?: string
+          is_ai?: boolean
           user_1?: string | null
-          user_1_score: number
+          user_1_score?: number
           user_2?: string | null
-          user_2_score?: number | null
+          user_2_score?: number
           winner_id?: string | null
         }
         Update: {
           created_at?: string
           ended?: boolean
           id?: string
+          is_ai?: boolean
           user_1?: string | null
           user_1_score?: number
           user_2?: string | null
-          user_2_score?: number | null
+          user_2_score?: number
           winner_id?: string | null
         }
         Relationships: [
@@ -106,21 +109,24 @@ export type Database = {
       users: {
         Row: {
           created_at: string
-          display_name: string | null
+          display_name: string
           id: string
-          Score: number | null
+          score: number
+          waiting_match: boolean
         }
         Insert: {
           created_at?: string
-          display_name?: string | null
+          display_name?: string
           id?: string
-          Score?: number | null
+          score?: number
+          waiting_match?: boolean
         }
         Update: {
           created_at?: string
-          display_name?: string | null
+          display_name?: string
           id?: string
-          Score?: number | null
+          score?: number
+          waiting_match?: boolean
         }
         Relationships: []
       }
