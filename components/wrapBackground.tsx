@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import Header from "./header";
 
-const WrapBackground: React.FC<{children: ReactNode}> = ({ children }) => (
+const WrapBackground: React.FC<{children: ReactNode }> = ({ children }) => (
   <div className="flex flex-col items-center justify-center h-screen w-screen">
     <div
       className="
