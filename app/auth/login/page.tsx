@@ -5,7 +5,7 @@ import WrapBackground from "@/components/wrapBackground";
 import { Button } from "@/components/ui/button";
 import { FaGoogle, FaGithub } from "react-icons/fa";
 
-import { createClient } from "@/utils/supabase/client";
+import { supabaseClient } from "@/utils/supabase/client";
 
 
 //refactor a button component with will get name and icon as props
@@ -31,7 +31,7 @@ const OAuthLoginButton = ({ provider, icon: Icon, onClick }:{
 export default function LoginPage() {
 
   const handleOAuthLogin = useCallback(async (provider: "google" | "github") => {
-    const supabase = createClient();
+    const supabase = supabaseClient();
     await supabase.auth.signInWithOAuth({
       provider,
       options: {
