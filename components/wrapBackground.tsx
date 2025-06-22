@@ -18,7 +18,7 @@ const WrapBackground: React.FC<{children: ReactNode}> = ({ children }) => (
         <div className="h-[10%]">
             <Header />
         </div>
-        <div className="h-[90%">
+        <div className="h-[90%]">
             {children}
         </div>
       </div>
