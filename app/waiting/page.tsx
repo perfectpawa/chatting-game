@@ -1,50 +1,109 @@
 "use client";
 
 import WrapBackground from "@/components/wrapBackground";
+import { useEffect, useState } from "react";
+import { supabaseClient } from "@/utils/supabase/client";
 import { useUser } from "@/lib/store/user";
-import { useWaitingUsers } from "@/lib/waiting/useWaitingUsers";
-import { useMatchmaking } from "@/lib/waiting/useMatchmaking";
-import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 export default function Waiting() {
+  const supabase = supabaseClient();
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const user = useUser((state) => state.user);
-  const waitingUsers = useWaitingUsers();
-  const { loading, error } = useMatchmaking(user, waitingUsers);
 
-  const handleEndWaiting = async () => {
+  useEffect(() => {
     if (!user) {
-      console.error("No user is logged in.");
+      setError("You must be logged in to wait for a match.");
+      setLoading(false);
       return;
     }
-    const supabase = (await import("@/utils/supabase/client")).supabaseClient();
-    const { error } = await supabase
-      .from("waiting_user")
-      .delete()
-      .eq("id", user.id);
-    if (error) {
-      console.error("Error deleting waiting user:", error);
-    } else {
-      (await import("next/navigation")).useRouter().push("/");
+
+    let unsubscribed = false;
+
+    const channel = supabase
+      .channel(`session-matching`)
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "chat_sessions",
+        },
+        (payload) => {
+          const session = payload.new;
+
+          if (session.owner_id === user.id || session.guest_id === user.id) {
+            if (!unsubscribed) {
+              router.push(`/chat/${session.id}`);
+            }
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      channel.unsubscribe();
+      unsubscribed = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!user) {
+      setError("You must be logged in to wait for a match.");
+      setLoading(false);
+      return;
     }
-  };
+
+    const findMatch = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await fetch("/api/matchmaking", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId: user.id }),
+        });
+        const data = await res.json();
+        if (data.error) {
+          setError("API: " + data.error);
+          setLoading(false);
+          return;
+        }
+        if (data.matched && data.session) {
+          router.push(`/chat/${data.session.id}`);
+          return;
+        }
+      } catch (err: any) {
+        setError("Failed to connect to matchmaking service: " + err);
+        setLoading(false);
+      }
+    };
+
+    findMatch();
+
+    return () => {
+      // Call API to remove user from waiting queue
+      if (user && user.id) {
+        fetch("/api/matchmaking", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId: user.id }),
+        });
+      }
+    };
+  }, [user]);
 
   return (
     <WrapBackground>
       <div className="flex flex-col items-center justify-center h-full w-full">
         {loading && (
-          <>
-            <div className="mb-4 text-blue-500 animate-pulse">Matching you with another user...</div>
-            <Button
-              className="mt-4"
-              onClick={handleEndWaiting}
-            >
-              End Waiting
-            </Button>
-          </>
+          <div className="mb-4 text-blue-500 animate-pulse">
+            Matching you with another user...
+          </div>
         )}
-        {error && (
-          <div className="mb-4 text-red-500">{error}</div>
-        )}
+        {error && <div className="mb-4 text-red-500">{error}</div>}
       </div>
     </WrapBackground>
   );

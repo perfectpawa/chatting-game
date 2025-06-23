@@ -35,20 +35,6 @@ export default function Home() {
   }, []);
 
   const handleStartGame = async () => {
-
-    const { data, error } = await supabase
-        .from("waiting_user")
-        .insert({ id: user ? user.id : "guest" })
-        .select()
-        .single();
-
-    if (error) {
-      console.error("Error inserting waiting user:", error);
-      return;
-    }
-
-    console.log("Waiting user added:", data);
-
     router.push("/waiting");
   };
 

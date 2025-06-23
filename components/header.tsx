@@ -26,6 +26,16 @@ export default function Header() {
   return (
     <div className={`flex items-center justify-between p-4 rounded-t-lg`}>
       <div className="text-2xl font-bold">Chatting Game</div>
+      {/* show user name */}
+      <div className="text-sm">
+        {mounted && user ? (
+          <span className="text-gray-700">
+            Welcome, {user.email || "Guest"}!
+          </span>
+        ) : (
+          <span className="text-gray-500">Loading...</span>
+        )}
+      </div>
       <div className="">
         {mounted && user && (
           <Button
