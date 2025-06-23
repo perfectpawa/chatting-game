@@ -112,23 +112,43 @@ export type Database = {
           display_name: string
           id: string
           score: number
-          waiting_match: boolean
         }
         Insert: {
           created_at?: string
           display_name?: string
           id?: string
           score?: number
-          waiting_match?: boolean
         }
         Update: {
           created_at?: string
           display_name?: string
           id?: string
           score?: number
-          waiting_match?: boolean
         }
         Relationships: []
+      }
+      waiting_user: {
+        Row: {
+          created_at: string
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "waiting_user_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
