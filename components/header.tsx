@@ -1,15 +1,16 @@
 "use client";
 
-import { useUser } from "@/lib/store/user";
+import { useUser, clearUser } from "@/lib/store/user";
 import { Button } from "./ui/button";
 
 import { supabaseClient } from "@/utils/supabase/client";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Header() {
   const user = useUser((state) => state.user);
   const router = useRouter();
+  const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -18,10 +19,15 @@ export default function Header() {
 
   const handleLogout = async () => {
     const supabase = supabaseClient();
+
+    
+
     await supabase.auth.signOut();
-    useUser.setState({ user: null }); // Clear Zustand state
+    clearUser();
     router.push("/"); // Optionally redirect
   };
+
+  const isInChatPage = pathname.startsWith('/chat');
 
   return (
     <div className={`flex items-center justify-between p-4 rounded-t-lg`}>
@@ -31,9 +37,9 @@ export default function Header() {
           <Button
             variant="outline"
             className="text-sm"
-            onClick={handleLogout}
+            onClick={isInChatPage ? () => router.push("/") : handleLogout}
           >
-            Logout
+            {isInChatPage ? "Go to Homepage" : "Logout"}
           </Button>
         )}
       </div>

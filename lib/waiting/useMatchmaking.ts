@@ -16,26 +16,10 @@ export function useMatchmaking(user: UserLike | null, waitingUsers: WaitingUser[
     } else {
       setLoading(false);
     }
-  }, [waitingUsers, user]);
 
-  useEffect(() => {
     const tryMatchUsers = async () => {
       if (waitingUsers.length >= 2 && user) {
-        const userIds = waitingUsers.slice(0, 2).map((u: WaitingUser) => u.id);
-        if (!userIds.includes(user.id)) return;
-        setError(null);
-        const res = await fetch("/api/matchmaking", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ user1: userIds[0], user2: userIds[1] })
-        });
-        if (res.ok) {
-          const { sessionId } = await res.json();
-          router.push(`/chat/${sessionId}`);
-        } else {
-          const err = await res.json();
-          setError(err.error || "Failed to create session");
-        }
+        console.log("Attempting to match users...");
       }
     };
     tryMatchUsers();
