@@ -22,9 +22,24 @@ export default function Home() {
       const { data } = await supabase.auth.getUser();
       setUser(data.user);
 
+      //fetch user infomation from user table supabase
+
+      if (!data.user) {
+        return;
+      }
+
+      const { data: userData, error } = await supabase
+        .from("users")
+        .select("*")
+        .eq("id", data.user?.id)
+        .single();
+
+
+
       if (!initState.current) {
         useUser.setState({
           user: data.user,
+          displayName: userData?.display_name || null,
         });
       }
 
