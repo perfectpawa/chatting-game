@@ -22,9 +22,24 @@ export default function Home() {
       const { data } = await supabase.auth.getUser();
       setUser(data.user);
 
+      //fetch user infomation from user table supabase
+
+      if (!data.user) {
+        return;
+      }
+
+      const { data: userData, error } = await supabase
+        .from("users")
+        .select("*")
+        .eq("id", data.user?.id)
+        .single();
+
+
+
       if (!initState.current) {
         useUser.setState({
           user: data.user,
+          displayName: userData?.display_name || null,
         });
       }
 
@@ -35,20 +50,6 @@ export default function Home() {
   }, []);
 
   const handleStartGame = async () => {
-
-    const { data, error } = await supabase
-        .from("waiting_user")
-        .insert({ id: user ? user.id : "guest" })
-        .select()
-        .single();
-
-    if (error) {
-      console.error("Error inserting waiting user:", error);
-      return;
-    }
-
-    console.log("Waiting user added:", data);
-
     router.push("/waiting");
   };
 

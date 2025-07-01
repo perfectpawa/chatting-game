@@ -3,13 +3,15 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 interface UserState {
-    user: User | null
+    user: User | null,
+    displayName?: string | null,
 }
 
 export const useUser = create<UserState>()(
     persist(
         (set) => ({
             user: null,
+            displayName: null,
         }),
         {
             name: 'user-storage', // unique name for the storage

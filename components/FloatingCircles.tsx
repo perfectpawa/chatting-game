@@ -204,25 +204,6 @@ const FloatingCircles: React.FC = () => {
           const dx = Math.cos(circle.angle) * floatDistance;
           const dy = Math.sin(circle.angle) * floatDistance;
 
-          // Handler to update circle position in Zustand store
-          const handleUpdate = (latest: { x: number; y: number }) => {
-            // Only update for random/user circles (not waiting)
-            if (!circle.isWaiting) {
-              setCircles((prev: CircleData[]) =>
-                prev.map((c) =>
-                  c.circleId === circle.circleId
-                    ? {
-                        ...c,
-                        // Convert px offset to % (approximate, since parent is 100vw/100vh)
-                        left: Math.min(100, Math.max(0, circle.left + (latest.x / window.innerWidth) * 100)),
-                        top: Math.min(100, Math.max(0, circle.top + (latest.y / window.innerHeight) * 100)),
-                      }
-                    : c
-                )
-              );
-            }
-          };
-
           return (
             <motion.div
               key={circle.circleId || i}
@@ -248,7 +229,6 @@ const FloatingCircles: React.FC = () => {
                 height: circle.size,
                 zIndex: 1,
               }}
-              onUpdate={handleUpdate}
             >
               <div
                 className={

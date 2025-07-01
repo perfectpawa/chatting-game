@@ -13,47 +13,50 @@ export type Database = {
         Row: {
           created_at: string
           ended: boolean
+          guest_id: string | null
+          guest_score: number
           id: string
           is_ai: boolean
-          user_1: string | null
-          user_1_score: number
-          user_2: string | null
-          user_2_score: number
+          owner_id: string
+          owner_score: number
+          waiting_guest: boolean
           winner_id: string | null
         }
         Insert: {
           created_at?: string
           ended?: boolean
+          guest_id?: string | null
+          guest_score?: number
           id?: string
           is_ai?: boolean
-          user_1?: string | null
-          user_1_score?: number
-          user_2?: string | null
-          user_2_score?: number
+          owner_id: string
+          owner_score?: number
+          waiting_guest?: boolean
           winner_id?: string | null
         }
         Update: {
           created_at?: string
           ended?: boolean
+          guest_id?: string | null
+          guest_score?: number
           id?: string
           is_ai?: boolean
-          user_1?: string | null
-          user_1_score?: number
-          user_2?: string | null
-          user_2_score?: number
+          owner_id?: string
+          owner_score?: number
+          waiting_guest?: boolean
           winner_id?: string | null
         }
         Relationships: [
           {
             foreignKeyName: "chat_sessions_user_1_fkey"
-            columns: ["user_1"]
+            columns: ["owner_id"]
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "chat_sessions_user_2_fkey"
-            columns: ["user_2"]
+            columns: ["guest_id"]
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
@@ -127,14 +130,14 @@ export type Database = {
         }
         Relationships: []
       }
-      waiting_user: {
+      waiting_users: {
         Row: {
           created_at: string
           id: string
         }
         Insert: {
           created_at?: string
-          id?: string
+          id: string
         }
         Update: {
           created_at?: string
