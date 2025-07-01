@@ -20,13 +20,20 @@ const ChatMessage = ({ messageData }: { messageData: Message }) => {
         messageData.isUserMessage ? "justify-end" : "justify-start"
       } mb-4`}
     >
-      <div
-        className={`max-w-xs p-3 rounded-lg ${
-          messageData.isUserMessage ? "" : ""
-        }`}
-      >
-        <div className="text-sm font-semibold">{messageData.senderName}</div>
-        <div className="text-sm">{messageData.content}</div>
+      <div>
+        <div className={`text-md font-bold opacity-80 mb-1 italic
+          ${messageData.isUserMessage ? "text-right" : "text-left"}
+          `}>
+          {messageData.senderName}
+        </div>
+        <div className={`
+          max-w-xs p-3 rounded-lg border shadow
+          ${messageData.isUserMessage
+            ? "bg-[#b7bdf8] text-[#24273a] border-[#b7bdf8]"
+            : "bg-[#363a4f] text-[#cad3f5] border-[#363a4f]"}
+          `}>
+          {messageData.content}
+        </div>
       </div>
     </div>
   );

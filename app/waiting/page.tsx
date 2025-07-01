@@ -99,11 +99,11 @@ export default function Waiting() {
     <WrapBackground>
       <div className="flex flex-col items-center justify-center h-full w-full">
         {loading && (
-          <div className="mb-4 text-blue-500 animate-pulse">
+          <div className="mb-4 text-[#8aadf4] animate-pulse">
             Matching you with another user...
           </div>
         )}
-        {error && <div className="mb-4 text-red-500">{error}</div>}
+        {error && <div className="mb-4 text-[#ed8796]">{error}</div>}
       </div>
     </WrapBackground>
   );

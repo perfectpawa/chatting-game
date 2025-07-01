@@ -19,7 +19,7 @@ const OAuthLoginButton = ({ provider, icon: Icon, onClick }:{
     <Button
       type="button"
       variant="outline"
-      className="w-full flex items-center justify-center gap-2 font-semibold shadow"
+      className="w-full flex items-center justify-center gap-2 font-semibold shadow-[0_2px_8px_0_#181926]"
       onClick={onClick}
     >
       <Icon className="text-lg" />
@@ -55,7 +55,7 @@ export default function LoginPage() {
               onClick={() => handleOAuthLogin("github")}
             />
         </div>
-        <div className="text-sm text-gray-500 mt-4">
+        <div className="text-sm text-[#a5adcb] mt-4">
           By continuing, you agree to our Terms of Service and Privacy Policy.
         </div>
       </div>

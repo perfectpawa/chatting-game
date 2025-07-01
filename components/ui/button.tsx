@@ -10,16 +10,16 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",
+          "bg-[#b7bdf8] text-[#cad3f5] shadow-xs hover:bg-[#cad3f5] hover:text-[#24273a]",
         destructive:
-          "bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
+          "bg-[#ed8796] text-[#cad3f5] shadow-xs hover:bg-[#f5bde6] hover:text-[#24273a] focus-visible:ring-[#ed8796]/20 dark:focus-visible:ring-[#ed8796]/40 dark:bg-[#ed8796]/60",
         outline:
-          "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
+          "border bg-[#494d64] text-[#cad3f5] shadow-xs hover:bg-[#b8c0e0] hover:text-[#24273a] dark:bg-[#363a4f] dark:border-[#494d64] dark:hover:bg-[#a5adcb] dark:hover:text-[#181926]",
         secondary:
-          "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
+          "bg-[#b8c0e0] text-[#cad3f5] shadow-xs hover:bg-[#cad3f5] hover:text-[#24273a]",
         ghost:
-          "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
-        link: "text-primary underline-offset-4 hover:underline",
+          "hover:bg-[#b7bdf8]/50 hover:text-[#cad3f5] dark:hover:bg-[#b7bdf8]/30",
+        link: "text-[#cad3f5] underline-offset-4 hover:underline hover:text-[#b7bdf8]",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",

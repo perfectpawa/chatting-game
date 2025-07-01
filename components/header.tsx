@@ -27,13 +27,11 @@ export default function Header() {
   return (
     <div className={`flex items-center justify-between p-4 rounded-t-lg`}>
       {/* show user name */}
-      <div className="text-sm">
-        {mounted && user ? (
-          <span className="text-gray-700">
+      <div className="text-md font-bold">
+        {mounted && user && (
+          <span className="text-[#cad3f5]">
             Ready to Play, {displayName}
           </span>
-        ) : (
-          <span className="text-gray-500">Loading...</span>
         )}
       </div>
       <div className="">
